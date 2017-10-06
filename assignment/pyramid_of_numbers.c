@@ -1,9 +1,9 @@
 /*----------------------------------------------------------
- *				HTBLA-Leonding / Class: <your class>
+ *				HTBLA-Leonding / Class: 2AHIF
  * ---------------------------------------------------------
- * Exercise Number: 0
+ * Exercise Number: 3
  * Title:			Pyramid of Numbers
- * Author:			<your name>
+ * Author:			Felix Bogengruber
  * ----------------------------------------------------------
  * Description:
  * Calculates a pyramid of numbers, i.e., it multiplies a big
@@ -13,6 +13,7 @@
  * ----------------------------------------------------------
  */
 #include <stdio.h>
+#include <string.h>
 
 /// The maximum number of digits allowed in a big int.
 #define MAX_DIGITS 80
@@ -76,5 +77,38 @@ void copy_big_int(const struct BigInt *from, struct BigInt *to);
 */
 int main(int argc, char *argv[])
 {
+	printf("Pyramid of Numbers\n");
+	printf("Please enter a Number\n");
+	char input[MAX_DIGITS + 1];
+	scanf("%s",input );
+	int len = strlen(input);
+	if(len > MAX_DIGITS){
+		return 0;
+	}
+	struct BigInt number;
+	number.digits_count = len;
+	int nlen = strtobig_int(input, len, &number);
+	if(nlen < len){
+		return 0;
+	}
+	struct BigInt big_result;
+	big_result.digits_count = nlen;
+	for (int i = 2; i < 10; i++) {
+			multiply(&number, i, &big_result);
+	}
 	return 0;
+}
+
+int strtobig_int(const char *str, int len, struct BigInt *big_int){
+	for (int i = 0; i < len; i++) {
+		if((int)str[i] >= 47 && (int)str[i] <= 57){
+			big_int.the_int[i] = str[i];
+		}
+	}
+	int nlen = strlen(big_int);
+	return nlen;
+}
+
+void multiply(const struct BigInt *big_int, int factor, struct BigInt *big_result){
+
 }
