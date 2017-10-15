@@ -13,6 +13,7 @@
  * ----------------------------------------------------------
  */
 #include <stdio.h>
+#include <string.h>
 
 /// The maximum number of digits allowed in a big int.
 #define MAX_DIGITS 80
@@ -51,7 +52,8 @@ void print_big_int(const struct BigInt *big_int);
 void multiply(const struct BigInt *big_int, int factor, struct BigInt *big_result);
 
 /** divide() multiplies a BigInt by an int.
-*** @param big_int The BigInt to be divided.
+*** @param big_int The BigInt to be d    s
+ivided.
 *** @param divisor The int value by which we want to devide big_int.
 *** @param *big_result The result of the division.
 */
@@ -76,5 +78,85 @@ void copy_big_int(const struct BigInt *from, struct BigInt *to);
 */
 int main(int argc, char *argv[])
 {
+	char numbers[MAX_DIGITS + 1];
+	printf("Please enter a number: ");
+	scanf("%s", numbers);
+	int len = strlen(numbers);
+	if(len > MAX_DIGITS + 1){
+		printf("The number is to big!\n");
+		return 0;
+	}
+	struct BigInt big_int[strlen(numbers)];
+	int nlen = strtobig_int(numbers, len, big_int);
+	(*big_int).digits_count = nlen;
+	if(nlen < len){
+		printf("There must be only digits!\n");
+		return 0;
+	}
+	struct BigInt big_result[len];
+	for (int i = 2; i < 10; i++) {
+		multiply(big_int, i, big_result);
+		print_big_int(big_int);
+		printf(" * %d = ", i);
+		print_big_int(big_result);
+		copy_big_int(big_result, big_int);
+		printf("\n");
+	}
+
+	for (int i = 9; i > 1; i++) {
+		divide(big_int, i, big_result);
+		print_big_int(big_int);
+		printf(" / %d = ", i);
+		print_big_int(big_result);
+		copy_big_int(big_result, big_int);
+		printf("\n");
+	}
+
+
 	return 0;
+}
+
+
+int strtobig_int(const char *str, int len, struct BigInt *big_int){
+	int i;
+	for (i = 0; i < len; i++) {
+		if(str[i] < 48 && str[i] > 58){
+			return i;
+		}
+		(*big_int).the_int[i] = str[len - i];
+	}
+	return i;
+}
+
+void multiply(const struct BigInt *big_int, int factor, struct BigInt *big_result){
+	int modulo_result = 0;
+	int i;
+	for (i = 0; i < (*big_int).digits_count; i++) {
+		(*big_result).the_int[i] = ((*big_int).the_int[i] * factor) / 10 + modulo_result;
+		modulo_result = ((*big_int).the_int[i] * factor) % 10;
+	}
+	(*big_result).digits_count = i;
+}
+
+void divide(const struct BigInt *big_int, int divisor, struct BigInt *big_result){
+	int modulo_result = 0;
+	int i;
+	for (i = 0; i < (*big_int).digits_count; i++) {
+		modulo_result = modulo_result * 10 + (*big_int).the_int[i];
+		(*big_result).the_int[i] = modulo_result / divisor;
+		modulo_result = (modulo_result / divisor) % 10;
+	}
+	(*big_result).digits_count = i;
+}
+
+void copy_big_int(const struct BigInt *from, struct BigInt *to){
+	for (int i = 0; i < (*from).digits_count; i++) {
+		(*to).the_int[i] = (*from).the_int[i];
+	}
+}
+
+void print_big_int(const struct BigInt *big_int){
+	for (int i = (*big_int).digits_count; i > 0 ; i--) {
+		printf("%d",(*big_int).the_int[i]);
+	}
 }
