@@ -18,7 +18,7 @@
 /// The maximum number of digits allowed in a big int.
 #define MAX_DIGITS 80
 
-/** BigInt represents an integer number which can have MAX_DIGITS digits
+/** BigInt represents a5555555656n integer number which can have MAX_DIGITS digits
 *** @see MAX_DIGITS
 */
 struct BigInt {
@@ -88,7 +88,7 @@ int main(int argc, char *argv[])
 	}
 	struct BigInt big_int[strlen(numbers)];
 	int nlen = strtobig_int(numbers, len, big_int);
-	(*big_int).digits_count = nlen;
+	big_int->digits_count = nlen;
 	if(nlen < len){
 		printf("There must be only digits!\n");
 		return 0;
@@ -123,7 +123,7 @@ int strtobig_int(const char *str, int len, struct BigInt *big_int){
 		if(str[i] < 48 && str[i] > 58){
 			return i;
 		}
-		(*big_int).the_int[i] = str[len - i];
+		big_int->the_int[i] = str[len - 1 - i];
 	}
 	return i;
 }
@@ -131,32 +131,32 @@ int strtobig_int(const char *str, int len, struct BigInt *big_int){
 void multiply(const struct BigInt *big_int, int factor, struct BigInt *big_result){
 	int modulo_result = 0;
 	int i;
-	for (i = 0; i < (*big_int).digits_count; i++) {
-		(*big_result).the_int[i] = ((*big_int).the_int[i] * factor) / 10 + modulo_result;
-		modulo_result = ((*big_int).the_int[i] * factor) % 10;
+	for (i = 0; i < big_int->digits_count; i++) {
+		big_result->the_int[i] = (big_int->the_int[i] * factor) / 10 + modulo_result;
+		modulo_result = (big_int->the_int[i] * factor) % 10;
 	}
-	(*big_result).digits_count = i;
+	big_result->digits_count = i;
 }
 
 void divide(const struct BigInt *big_int, int divisor, struct BigInt *big_result){
 	int modulo_result = 0;
 	int i;
-	for (i = 0; i < (*big_int).digits_count; i++) {
-		modulo_result = modulo_result * 10 + (*big_int).the_int[i];
-		(*big_result).the_int[i] = modulo_result / divisor;
+	for (i = 0; i < big_int->digits_count; i++) {
+		modulo_result = modulo_result * 10 + big_int->the_int[i];
+		big_result->the_int[i] = modulo_result / divisor;
 		modulo_result = (modulo_result / divisor) % 10;
 	}
-	(*big_result).digits_count = i;
+	big_result->digits_count = i;
 }
 
 void copy_big_int(const struct BigInt *from, struct BigInt *to){
-	for (int i = 0; i < (*from).digits_count; i++) {
-		(*to).the_int[i] = (*from).the_int[i];
+	for (int i = 0; i < from->digits_count; i++) {
+		to->the_int[i] = from->the_int[i];
 	}
 }
 
 void print_big_int(const struct BigInt *big_int){
-	for (int i = (*big_int).digits_count; i > 0 ; i--) {
-		printf("%d",(*big_int).the_int[i]);
+	for (int i = big_int->digits_count; i > 0 ; i--) {
+		printf("%d",big_int->the_int[i]);
 	}
 }
