@@ -52,23 +52,21 @@ void print_big_int(const struct BigInt *big_int);
 void multiply(const struct BigInt *big_int, int factor, struct BigInt *big_result);
 
 /** divide() multiplies a BigInt by an int.
-*** @param big_int The BigInt to be d    s
-ivided.
+*** @param big_int The BigInt to be divided.
 *** @param divisor The int value by which we want to devide big_int.
 *** @param *big_result The result of the division.
 */
 void divide(const struct BigInt *big_int, int divisor, struct BigInt *big_result);
 
 /** copy_big_int() copies a BigInt to another BigInt.
-*** @param from The source where we want to copy from.
++*** @param from The source where we want to copy from.
 *** @param *to The target where we want to copy to.
 */
 void copy_big_int(const struct BigInt *from, struct BigInt *to);
 
 /**
 *** main() reads the base number from which the pyramid has to be calculated
-*** into an array of char. The max. length of this number is MAX_DIGITS.
-*** The number is checked to contain only digits. If not the program exits.
+*** into an array of char. The max. length of this number is MAX_DIGITS.*** The number is checked to contain only digits. If not the program exits.
 *** Then the inputted number is converted into a big int by calling the
 *** function strtobig_int().
 *** After the conversion the tower is calculated by calling the functions
@@ -82,7 +80,7 @@ int main(int argc, char *argv[])
 	printf("Please enter a number: ");
 	scanf("%s", numbers);
 	int len = strlen(numbers);
-	if(len > MAX_DIGITS + 1){
+  if(len > MAX_DIGITS + 1){
 		printf("The number is to big!\n");
 		return 0;
 	}
@@ -95,7 +93,7 @@ int main(int argc, char *argv[])
 	struct BigInt big_result;
 	for (int i = 2; i < 10; i++) {
 		multiply(&big_int, i, &big_result);
-		print_big_int(&big_int);
+    print_big_int(&big_int);
 		printf(" * %d = ", i);
 		print_big_int(&big_result);
 		copy_big_int(&big_result, &big_int);
@@ -112,7 +110,7 @@ int main(int argc, char *argv[])
 	}
 
 
-	return 0;
+ return 0;
 }
 
 
@@ -130,7 +128,7 @@ int strtobig_int(const char *str, int len, struct BigInt *big_int){
 
 void multiply(const struct BigInt *big_int, int factor, struct BigInt *big_result){
 	int modulo_result = 0;
-	int i;
+	int i = 0;
 	for (i = 0; i < big_int->digits_count; i++) {
 		big_result->the_int[i] = (big_int->the_int[i] * factor + modulo_result) % 10;
 		modulo_result = (big_int->the_int[i] * factor + modulo_result) / 10;
@@ -147,20 +145,12 @@ void multiply(const struct BigInt *big_int, int factor, struct BigInt *big_resul
 
 void divide(const struct BigInt *big_int, int divisor, struct BigInt *big_result){
 	int modulo_result = 0;
-	int count = 1;
-	for (size_t i = 0; i < big_Int.digits_count; i++) {
-		modulo_result = big_Int->the_int[big_Int->digits_count - count];
-		if(modulo_result > faktor && the)
-
-	}
-	/*int i;
-	for (i = 0; i < big_int->digits_count; i++) {
+	int i;
+	for (i = big_int->digits_count - 1; i >= 0; i--) {
 		modulo_result = modulo_result * 10 + big_int->the_int[i];
 		big_result->the_int[i] = modulo_result / divisor;
 		modulo_result = modulo_result % divisor;
 	}
-	big_result->digits_count = i;*/
-
 }
 
 void copy_big_int(const struct BigInt *from, struct BigInt *to){
@@ -171,7 +161,13 @@ void copy_big_int(const struct BigInt *from, struct BigInt *to){
 }
 
 void print_big_int(const struct BigInt *big_int){
+	int bool_as_int = 0;
 	for (int i = big_int->digits_count - 1; i >= 0 ; i--) {
+		if(big_int->the_int[i] != 0){
+			bool_as_int = 1;
+		}
+		if(bool_as_int == 1){
 		printf("%d",big_int->the_int[i]);
-	}
+		}
+ }
 }
